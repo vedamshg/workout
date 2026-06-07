@@ -17,7 +17,7 @@
             --text-primary: #ffffff;
             --text-secondary: #8e8e93;
             --text-tertiary: #48484a;
-            --separator: rgba(255, 255, 255, 0.1);
+            --separator: rgba(255, 255, 255, 0.08);
             --radius-sf: 12px;
             --radius-pill: 20px;
             
@@ -93,7 +93,7 @@
             margin-top: 2px;
         }
 
-        /* HIGH-FIDELITY ACTIVE TINT PICKER (FIXES DULL LAYOUT IN IMAGE_4B8C2D.PNG) */
+        /* HIGH-FIDELITY ACTIVE TINT PICKER */
         .segmented-picker {
             background-color: rgba(28, 28, 30, 0.7);
             border-radius: 12px;
@@ -184,7 +184,7 @@
             margin-top: var(--header-height);
             overflow-y: auto;
             -webkit-overflow-scrolling: touch; 
-            padding: 12px 12px calc(20px + env(safe-area-inset-bottom, 0px)) 12px;
+            padding: 16px 12px calc(20px + env(safe-area-inset-bottom, 0px)) 12px;
         }
 
         .scroll-content::-webkit-scrollbar {
@@ -195,7 +195,7 @@
         .stack {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .tab-viewport {
@@ -205,7 +205,7 @@
         .tab-viewport.active {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .day-card {
@@ -215,9 +215,10 @@
             border: 0.5px solid rgba(255, 255, 255, 0.05);
         }
 
+        /* HEADER TRIGGER CONTAINS SEPARATOR UNDERLINE */
         .day-trigger {
             width: 100%;
-            padding: 14px 16px;
+            padding: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -226,23 +227,27 @@
             color: inherit;
             text-align: left;
             cursor: pointer;
+            border-bottom: 0.5px solid var(--separator);
         }
 
+        /* AMPLIFIED TEXT AUTHORITIES */
         .day-title-container h2 {
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: -0.3px;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
         }
 
         .day-subtitle {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-secondary);
+            margin-top: 1px;
         }
 
         .right-accessory {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
         .today-pill {
@@ -255,15 +260,42 @@
             display: none;
         }
 
+        /* VIRTUAL STACK POSITIONING: PUTS PROGRESS TRACK DIRECTLY BELOW COUNT */
+        .progress-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            min-width: 44px;
+        }
+
         .day-progress {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-secondary);
             font-variant-numeric: tabular-nums;
-            font-weight: 500;
+            font-weight: 600;
+            line-height: 1;
         }
 
         .day-progress.complete {
             color: var(--accent-green);
+        }
+
+        /* LOCALIZED MINI INDEPENDENT TRACK INDICATOR */
+        .mini-progress-track {
+            width: 36px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .mini-progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: var(--accent-green);
+            transition: width 0.25s cubic-bezier(0.2, 0, 0, 1);
+            border-radius: 2px;
         }
 
         .chevron {
@@ -293,7 +325,7 @@
         }
 
         .list-group {
-            padding: 0 16px 12px 16px;
+            padding: 4px 16px 12px 16px;
         }
 
         /* Mobile Action Row Geometry */
@@ -363,12 +395,23 @@
         }
 
         .exercise-link {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 500;
             color: var(--accent);
             text-decoration: none;
             letter-spacing: -0.2px;
             line-height: 1.3;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* INLINE TYPE ICONOGRAPHY */
+        .exercise-link i {
+            font-size: 12px;
+            color: var(--text-secondary);
+            width: 14px;
+            text-align: center;
         }
 
         .metrics-group {
@@ -418,7 +461,6 @@
 
     <div class="app-shell">
 
-        <!-- Top Navigation Header Container -->
         <header class="nav-header">
             <div class="header-main">
                 <div>
@@ -426,7 +468,6 @@
                     <p id="headerBlockTag">Advanced Split Trackers</p>
                 </div>
                 
-                <!-- UPGRADED HIGH-FIDELITY SEGMENTED COLOR PICKER -->
                 <div class="segmented-picker">
                     <button class="picker-item active" id="btn-weekly" onclick="switchTab('weekly')">
                         <i class="fa-solid fa-calendar-week"></i>
@@ -444,12 +485,9 @@
             </div>
         </header>
 
-        <!-- Main Dynamic Viewport Chassis -->
         <div class="scroll-content">
             
-            <!-- VIEWPORT 1: WEEKLY SPLIT -->
             <main id="weekly-view" class="tab-viewport active stack">
-                <!-- MONDAY -->
                 <div class="day-card" data-day="1" id="card-mon">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -458,7 +496,10 @@
                         </div>
                         <div class="right-accessory">
                             <span class="today-pill">Today</span>
-                            <span class="day-progress" id="progress-mon">0/10</span>
+                            <div class="progress-box">
+                                <span class="day-progress" id="progress-mon">0/10</span>
+                                <div class="mini-progress-track"><div class="mini-progress-fill" id="fill-mon"></div></div>
+                            </div>
                             <i class="fa-solid fa-chevron-right chevron"></i>
                         </div>
                     </button>
@@ -469,7 +510,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-1', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Flat+Dumbbell+Bench+Press+form" target="_blank">1. Flat DB Bench Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Flat+Dumbbell+Bench+Press+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Flat DB Bench Press</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">6-8R</span></div>
                                         </div>
                                         <p class="exercise-notes">Heavy loading sequence. Emphasize a structured 2-second eccentric phase.</p>
@@ -479,7 +520,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-2', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Machine+Chest+Press+form" target="_blank">2. Machine Chest Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Machine+Chest+Press+form" target="_blank"><i class="fa-solid fa-gear"></i>Machine Chest Press</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Paramount machine tracking. Take final set to mechanical failure drop-set.</p>
@@ -489,7 +530,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-3', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Incline+Dumbbell+Bench+Press+form" target="_blank">3. Incline DB Bench Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Incline+Dumbbell+Bench+Press+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Incline DB Bench Press</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Set bench profile to 30-degrees. Implement a rigid dead-stop pause at baseline.</p>
@@ -499,7 +540,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-4', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Incline+Dumbbell+Flyes+form" target="_blank">4. Incline DB Flyes</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Incline+Dumbbell+Flyes+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Incline DB Flyes</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Deep horizontal chest fly stretching. Contract tightly at terminal peak position.</p>
@@ -509,7 +550,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-5', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Pullover+chest+focus" target="_blank">5. Flat DB Pullovers</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Pullover+chest+focus" target="_blank"><i class="fa-solid fa-dumbbell"></i>Flat DB Pullovers</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Positioned cross-bench layout. Squeeze interior pecs to drive weight vertically up.</p>
@@ -519,7 +560,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-6', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Straight+Bar+Cable+Tricep+Pushdown" target="_blank">6. Straight Bar Pushdowns</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Straight+Bar+Cable+Tricep+Pushdown" target="_blank"><i class="fa-solid fa-link"></i>Straight Bar Pushdowns</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">High pulley cable alignment track. Maintain continuous tension vectors throughout.</p>
@@ -529,7 +570,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-7', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Overhead+Dumbbell+Tricep+Extension" target="_blank">7. Overhead DB Extension</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Overhead+Dumbbell+Tricep+Extension" target="_blank"><i class="fa-solid fa-dumbbell"></i>Overhead DB Extension</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Seated spine alignment. Achieve absolute terminal elbow flexion to isolate stretch.</p>
@@ -539,7 +580,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-8', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Skull+Crushers+form" target="_blank">8. DB Skull Crushers</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Skull+Crushers+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Skull Crushers</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Lying flat on bench tracking profile. Employ neutral grip alignment tracking.</p>
@@ -549,7 +590,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-9', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Cable+Chest+Fly+Low+Pulley" target="_blank">9. 1-Arm Low-to-High Fly</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Cable+Chest+Fly+Low+Pulley" target="_blank"><i class="fa-solid fa-link"></i>1-Arm Low-to-High Fly</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Low cable origin track. Direct trajectory up to isolate clavicular pec lines.</p>
@@ -559,7 +600,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('mon-10', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Deficit+Pushups+with+Dumbbells" target="_blank">10. Deficit DB Pushups</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Deficit+Pushups+with+Dumbbells" target="_blank"><i class="fa-solid fa-child"></i>Deficit DB Pushups</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">To Fail</span></div>
                                         </div>
                                         <p class="exercise-notes">Anchor palms on handles. Dip chest deep layout below standard floor limits.</p>
@@ -570,7 +611,6 @@
                     </div>
                 </div>
 
-                <!-- TUESDAY -->
                 <div class="day-card" data-day="2" id="card-tue">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -579,7 +619,10 @@
                         </div>
                         <div class="right-accessory">
                             <span class="today-pill">Today</span>
-                            <span class="day-progress" id="progress-tue">0/10</span>
+                            <div class="progress-box">
+                                <span class="day-progress" id="progress-tue">0/10</span>
+                                <div class="mini-progress-track"><div class="mini-progress-fill" id="fill-tue"></div></div>
+                            </div>
                             <i class="fa-solid fa-chevron-right chevron"></i>
                         </div>
                     </button>
@@ -590,7 +633,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-1', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Wide+Grip+Lat+Pulldown+form" target="_blank">1. Wide Grip Lat Pulldown</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Wide+Grip+Lat+Pulldown+form" target="_blank"><i class="fa-solid fa-gear"></i>Wide Grip Lat Pulldown</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Drive load down through elbows. Squeeze lats fiercely at base.</p>
@@ -600,7 +643,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-2', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Dumbbell+Row+form" target="_blank">2. Heavy Single-Arm DB Row</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Dumbbell+Row+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Heavy Single-Arm DB Row</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">6-8R</span></div>
                                         </div>
                                         <p class="exercise-notes">Braced stance platform layout on bench structure. Deliver explosive pulls.</p>
@@ -610,7 +653,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-3', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Chest+Supported+Incline+Dumbbell+Row" target="_blank">3. Chest-Supported DB Row</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Chest+Supported+Incline+Dumbbell+Row" target="_blank"><i class="fa-solid fa-dumbbell"></i>Chest-Supported DB Row</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Face down on incline backrest option. Flare elbows to isolate mid-back fields.</p>
@@ -620,7 +663,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-4', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Cable+Row+form" target="_blank">4. Seated Cable Row</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Cable+Row+form" target="_blank"><i class="fa-solid fa-link"></i>Seated Cable Row</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Low station straight bar setup. Fully telescope lats out forward.</p>
@@ -630,7 +673,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-5', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Straight+Arm+Lat+Pulldown+cable" target="_blank">5. Straight Arm Pulldown</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Straight+Arm+Lat+Pulldown+cable" target="_blank"><i class="fa-solid fa-link"></i>Straight Arm Pulldown</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">High pulley execution. Prevent elbow joint activation to trap absolute width.</p>
@@ -640,7 +683,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-6', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Standing+Alternating+Dumbbell+Bicep+Curls" target="_blank">6. DB Alternating Curls</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Standing+Alternating+Dumbbell+Bicep+Curls" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Alternating Curls</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Rigid upright posture alignment. Block all dynamic swaying momentum paths.</p>
@@ -650,7 +693,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-7', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Rope+Cable+Hammer+Curls" target="_blank">7. Cable Hammer Curls</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Rope+Cable+Hammer+Curls" target="_blank"><i class="fa-solid fa-link"></i>Cable Hammer Curls</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Low pulley rope setup. Heavy emphasis on brachialis lines.</p>
@@ -660,7 +703,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-8', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Incline+Dumbbell+Bicep+Curls" target="_blank">8. Incline DB Bicep Curls</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Incline+Dumbbell+Bicep+Curls" target="_blank"><i class="fa-solid fa-dumbbell"></i>Incline DB Bicep Curls</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">45-degree angle profile. Pin shoulders back to isolate maximum stretch.</p>
@@ -670,7 +713,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-9', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Spider+Curls+form" target="_blank">9. Dumbbell Spider Curls</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Spider+Curls+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Spider Curls</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Lying chest-down on incline. Gravity removes all accessory hip leverage.</p>
@@ -680,7 +723,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('tue-10', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Kroc+Rows+form" target="_blank">10. High-Rep Kroc Rows</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Kroc+Rows+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>High-Rep Kroc Rows</a>
                                             <div class="metrics-group"><span class="pill-badge">2S</span><span class="pill-badge">20+R</span></div>
                                         </div>
                                         <p class="exercise-notes">Ultra-high rep finishing circuit designed for structural back fatigue.</p>
@@ -691,7 +734,6 @@
                     </div>
                 </div>
 
-                <!-- WEDNESDAY -->
                 <div class="day-card" data-day="3" id="card-wed">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -700,7 +742,10 @@
                         </div>
                         <div class="right-accessory">
                             <span class="today-pill">Today</span>
-                            <span class="day-progress" id="progress-wed">0/10</span>
+                            <div class="progress-box">
+                                <span class="day-progress" id="progress-wed">0/10</span>
+                                <div class="mini-progress-track"><div class="mini-progress-fill" id="fill-wed"></div></div>
+                            </div>
                             <i class="fa-solid fa-chevron-right chevron"></i>
                         </div>
                     </button>
@@ -711,7 +756,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-1', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Dumbbell+Shoulder+Press+form" target="_blank">1. Seated DB Shoulder Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Dumbbell+Shoulder+Press+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Seated DB Shoulder Press</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">6-8R</span></div>
                                         </div>
                                         <p class="exercise-notes">Heavy overhead line. Stop upward paths just fractionally shy of lockout.</p>
@@ -721,7 +766,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-2', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Arnold+Press+form" target="_blank">2. Arnold Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Arnold+Press+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Arnold Press</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Smooth wrist-rotational pressing paths targeting deep deltoid transitions.</p>
@@ -731,7 +776,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-3', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Standing+Dumbbell+Lateral+Raise+form" target="_blank">3. 1.5 Rep DB Lateral Raises</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Standing+Dumbbell+Lateral+Raise+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>1.5 Rep DB Lateral Raises</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Advanced rep method: raise fully, drop down halfway, snap to top, lower fully.</p>
@@ -741,7 +786,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-4', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Cable+Lateral+Raise" target="_blank">4. 1-Arm Cable Lateral Raise</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Cable+Lateral+Raise" target="_blank"><i class="fa-solid fa-link"></i>1-Arm Cable Lateral Raise</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Low cable origin routing. Guide cable tracks smoothly behind back.</p>
@@ -751,7 +796,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-5', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Chest+Supported+Dumbbell+Rear+Delt+Fly" target="_blank">5. Supported Rear Delt Flyes</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Chest+Supported+Dumbbell+Rear+Delt+Fly" target="_blank"><i class="fa-solid fa-dumbbell"></i>Supported Rear Delt Flyes</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Face down on incline backrest. Isolate rear deltoids by keeping wrists neutral.</p>
@@ -761,7 +806,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-6', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Weighted+Dumbbell+Crunches" target="_blank">6. Weighted Crunches</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Weighted+Dumbbell+Crunches" target="_blank"><i class="fa-solid fa-dumbbell"></i>Weighted Crunches</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">15-20R</span></div>
                                         </div>
                                         <p class="exercise-notes">Anchor single heavy dumbbell across chest layout to load rectus abs.</p>
@@ -771,7 +816,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-7', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Russian+Twists" target="_blank">7. DB Russian Twists</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Russian+Twists" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Russian Twists</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">20R</span></div>
                                         </div>
                                         <p class="exercise-notes">Keep feet entirely hovering off ground. Execute tight controlled rotation track.</p>
@@ -781,7 +826,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-8', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Hanging+Knee+Raises+form" target="_blank">8. Hanging Knee Raises</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Hanging+Knee+Raises+form" target="_blank"><i class="fa-solid fa-child"></i>Hanging Knee Raises</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">To Fail</span></div>
                                         </div>
                                         <p class="exercise-notes">Suspended from pullup frame. Focus on pelvic tilt rather than swinging legs.</p>
@@ -791,7 +836,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-9', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Lu+Raises+form" target="_blank">9. Dumbbell Lu Raises</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Lu+Raises+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Lu Raises</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Fly weights wide out in a sweeping overhead architecture loop.</p>
@@ -801,7 +846,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('wed-10', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Cable+Woodchoppers+form" target="_blank">10. High-to-Low Woodchoppers</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Cable+Woodchoppers+form" target="_blank"><i class="fa-solid fa-link"></i>High-to-Low Woodchoppers</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">15/sd</span></div>
                                         </div>
                                         <p class="exercise-notes">High pulley track. Rotate downward diagonally across body lines to target obliques.</p>
@@ -812,7 +857,6 @@
                     </div>
                 </div>
 
-                <!-- THURSDAY -->
                 <div class="day-card" data-day="4" id="card-thu">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -821,7 +865,10 @@
                         </div>
                         <div class="right-accessory">
                             <span class="today-pill">Today</span>
-                            <span class="day-progress" id="progress-thu">0/10</span>
+                            <div class="progress-box">
+                                <span class="day-progress" id="progress-thu">0/10</span>
+                                <div class="mini-progress-track"><div class="mini-progress-fill" id="fill-thu"></div></div>
+                            </div>
                             <i class="fa-solid fa-chevron-right chevron"></i>
                         </div>
                     </button>
@@ -832,7 +879,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-1', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=1.5+rep+Incline+Dumbbell+Press" target="_blank">1. 1.5 Rep Incline DB Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=1.5+rep+Incline+Dumbbell+Press" target="_blank"><i class="fa-solid fa-dumbbell"></i>1.5 Rep Incline DB Press</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Add partial baseline pulse reps to maximize chest time-under-tension parameters.</p>
@@ -842,7 +889,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-2', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Neutral+Grip+Dumbbell+Bench+Press" target="_blank">2. Neutral Flat DB Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Neutral+Grip+Dumbbell+Bench+Press" target="_blank"><i class="fa-solid fa-dumbbell"></i>Neutral Flat DB Press</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Palms opposing each other. Keep elbow tracking locked tight to side of ribs.</p>
@@ -852,7 +899,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-3', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Tempo+Machine+Chest+Press" target="_blank">3. Tempo Machine Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Tempo+Machine+Chest+Press" target="_blank"><i class="fa-solid fa-gear"></i>Tempo Machine Press</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Strict execution tempo containing 3-1-1 eccentric negative counts.</p>
@@ -862,7 +909,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-4', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Alternating+Dumbbell+Front+Raises" target="_blank">4. DB Front Raises</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Alternating+Dumbbell+Front+Raises" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Front Raises</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Alternating track layout. Elevate loads level straight up with eye line coordinate.</p>
@@ -872,7 +919,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-5', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Paused+Dumbbell+Lateral+Raises" target="_blank">5. Paused DB Lateral Raises</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Paused+Dumbbell+Lateral+Raises" target="_blank"><i class="fa-solid fa-dumbbell"></i>Paused DB Lateral Raises</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Freeze movement completely for 1 solid second at maximum altitude peak.</p>
@@ -882,7 +929,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-6', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Tricep+Rope+Pushdown+form" target="_blank">6. Rope Tricep Pushdowns</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Tricep+Rope+Pushdown+form" target="_blank"><i class="fa-solid fa-link"></i>Rope Tricep Pushdowns</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">High cable orientation tracking. Separate terminal ends of rope assembly at base.</p>
@@ -892,7 +939,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-7', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Dumbbell+French+Press" target="_blank">7. DB French Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Dumbbell+French+Press" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB French Press</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Seated setup layout. Capture single heavy dumbbell stack safely using twin hands.</p>
@@ -902,7 +949,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-8', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Close+Grip+Pushups+triceps" target="_blank">8. Close-Grip Pushups</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Close+Grip+Pushups+triceps" target="_blank"><i class="fa-solid fa-child"></i>Close-Grip Pushups</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">To Fail</span></div>
                                         </div>
                                         <p class="exercise-notes">High metabolic burnout finisher. Maintain hand width narrower than shoulder line.</p>
@@ -912,8 +959,8 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-9', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Overhead+Cable+Tricep+Extension" target="_blank">9. 1-Arm Overhead Cable Ext</a>
-                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12R</span></div>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Overhead+Cable+Tricep+Extension" target="_blank"><i class="fa-solid fa-link"></i>1-Arm Overhead Cable Ext</a>
+                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12 Reps</span></div>
                                         </div>
                                         <p class="exercise-notes">Position facing away from pulley source. Forces intense long-head fiber stretch.</p>
                                     </div>
@@ -922,8 +969,8 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('thu-10', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Svend+Press+form" target="_blank">10. Dumbbell Svend Press</a>
-                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">15R</span></div>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Svend+Press+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Svend Press</a>
+                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">15 Reps</span></div>
                                         </div>
                                         <p class="exercise-notes">Clamp dual light dumbbells inward against each other horizontally while pressing.</p>
                                     </div>
@@ -933,7 +980,6 @@
                     </div>
                 </div>
 
-                <!-- FRIDAY -->
                 <div class="day-card" data-day="5" id="card-fri">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -942,7 +988,10 @@
                         </div>
                         <div class="right-accessory">
                             <span class="today-pill">Today</span>
-                            <span class="day-progress" id="progress-fri">0/10</span>
+                            <div class="progress-box">
+                                <span class="day-progress" id="progress-fri">0/10</span>
+                                <div class="mini-progress-track"><div class="mini-progress-fill" id="fill-fri"></div></div>
+                            </div>
                             <i class="fa-solid fa-chevron-right chevron"></i>
                         </div>
                     </button>
@@ -953,7 +1002,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-1', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Underhand+Reverse+Grip+Lat+Pulldown" target="_blank">1. Underhand Lat Pulldown</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Underhand+Reverse+Grip+Lat+Pulldown" target="_blank"><i class="fa-solid fa-gear"></i>Underhand Lat Pulldown</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Underhand grip layer. Trace pulling mechanics down to meet lower clavicle deck.</p>
@@ -963,7 +1012,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-2', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Pullover+Lat+Focus" target="_blank">2. DB Pullovers (Lat Focus)</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Pullover+Lat+Focus" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Pullovers (Lat Focus)</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Drop structural hip geometry below bench line to expand total lat extension.</p>
@@ -973,7 +1022,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-3', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Seated+Cable+Row" target="_blank">3. 1-Arm Seated Cable Row</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Seated+Cable+Row" target="_blank"><i class="fa-solid fa-link"></i>1-Arm Seated Cable Row</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Low cable tracker line. Add slight thoracic twisting rotation at end of row cycle.</p>
@@ -983,7 +1032,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-4', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Renegade+Row+form" target="_blank">4. DB Renegade Rows</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Renegade+Row+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Renegade Rows</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Ground pushup plank architecture. Alternate rows while resisting pelvic sways.</p>
@@ -993,7 +1042,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-5', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Shrugs+form" target="_blank">5. Heavy DB Shrugs</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Shrugs+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Heavy DB Shrugs</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Upright alignment. Lock out absolute peak elevation with a solid 3s hold.</p>
@@ -1003,7 +1052,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-6', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Dumbbell+Concentration+Curls" target="_blank">6. DB Concentration Curls</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Dumbbell+Concentration+Curls" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Concentration Curls</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Seated frame layout. Clamp target working elbow inside matching quad wall.</p>
@@ -1013,7 +1062,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-7', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Zottman+Curls+form" target="_blank">7. Zottman Curls</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Zottman+Curls+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Zottman Curls</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Supinate wrists on upward paths, rotate fully at top, then pronate down.</p>
@@ -1023,7 +1072,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-8', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Reverse+Grip+Cable+Curls" target="_blank">8. Reverse Cable Curls</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Reverse+Grip+Cable+Curls" target="_blank"><i class="fa-solid fa-link"></i>Reverse Cable Curls</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Low cable setup using bar. Pronated hand positions isolate brachioradialis lines.</p>
@@ -1033,8 +1082,8 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-9', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Kelso+Rows+form" target="_blank">9. Dumbbell Kelso Rows</a>
-                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12R</span></div>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Kelso+Rows+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Kelso Rows</a>
+                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">12 Reps</span></div>
                                         </div>
                                         <p class="exercise-notes">Chest pinned to backrest. Retract scapula aggressively before pulling metrics.</p>
                                     </div>
@@ -1043,10 +1092,10 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('fri-10', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Cable+Bicep+21s+form" target="_blank">10. Cable Bicep 21s</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Cable+Bicep+21s+form" target="_blank"><i class="fa-solid fa-link"></i>Cable Bicep 21s</a>
                                             <div class="metrics-group"><span class="pill-badge">2S</span><span class="pill-badge">21R</span></div>
                                         </div>
-                                        <p class="exercise-notes">Low cable pathing: 7 lower partials, 7 upper partials, 7 full ranges.</p>
+                                        <p class="exercise-notes">Low cable station bar pathing: 7 lower partials, 7 upper partials, 7 full ranges.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1054,7 +1103,6 @@
                     </div>
                 </div>
 
-                <!-- SATURDAY -->
                 <div class="day-card" data-day="6" id="card-sat">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1063,7 +1111,10 @@
                         </div>
                         <div class="right-accessory">
                             <span class="today-pill">Today</span>
-                            <span class="day-progress" id="progress-sat">0/10</span>
+                            <div class="progress-box">
+                                <span class="day-progress" id="progress-sat">0/10</span>
+                                <div class="mini-progress-track"><div class="mini-progress-fill" id="fill-sat"></div></div>
+                            </div>
                             <i class="fa-solid fa-chevron-right chevron"></i>
                         </div>
                     </button>
@@ -1074,7 +1125,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-1', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Bulgarian+Split+Squat+form" target="_blank">1. DB Bulgarian Split Squats</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Bulgarian+Split+Squat+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Bulgarian Split Squats</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Rear foot elevated on flat bench surface. Conclude set with a drop breakdown.</p>
@@ -1084,7 +1135,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-2', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Goblet+Squat+form" target="_blank">2. DB Goblet Squats</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Goblet+Squat+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Goblet Squats</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">10-12R</span></div>
                                         </div>
                                         <p class="exercise-notes">Maintain upright torso tracking. Minor heel elevation shifts absolute load onto quads.</p>
@@ -1094,7 +1145,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-3', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Romanian+Deadlift+RDL+form" target="_blank">3. Dumbbell RDLs</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Romanian+Deadlift+RDL+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell RDLs</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">8-10R</span></div>
                                         </div>
                                         <p class="exercise-notes">Strict 3-second negative descent tracking. Drive pelvic hip geometry far back.</p>
@@ -1104,7 +1155,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-4', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Reverse+Lunges" target="_blank">4. DB Reverse Lunges</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Reverse+Lunges" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Reverse Lunges</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10/lg</span></div>
                                         </div>
                                         <p class="exercise-notes">Step backward deep into depth ranges to trigger glute/hamstring intersections.</p>
@@ -1114,7 +1165,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-5', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Machine+Leg+Extension+form" target="_blank">5. Machine Leg Extensions</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Machine+Leg+Extension+form" target="_blank"><i class="fa-solid fa-gear"></i>Machine Leg Extensions</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Paramount machine tracking. Squeeze quads tight at extension peak for 2s.</p>
@@ -1124,7 +1175,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-6', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Machine+Leg+Curl+form" target="_blank">6. Machine Leg Curls</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Machine+Leg+Curl+form" target="_blank"><i class="fa-solid fa-gear"></i>Machine Leg Curls</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">12-15R</span></div>
                                         </div>
                                         <p class="exercise-notes">Paramount tracking system. Enforce stable, slow negative returns across reps.</p>
@@ -1134,7 +1185,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-7', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Leg+Standing+Dumbbell+Calf+Raise" target="_blank">7. Standing DB Calf Raises</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Leg+Standing+Dumbbell+Calf+Raise" target="_blank"><i class="fa-solid fa-dumbbell"></i>Standing DB Calf Raises</a>
                                             <div class="metrics-group"><span class="pill-badge">4S</span><span class="pill-badge">15-20R</span></div>
                                         </div>
                                         <p class="exercise-notes">Utilize unilateral execution models if current dumbbell limits are reached.</p>
@@ -1144,7 +1195,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-8', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Dumbbell+Calf+Raise+on+bench" target="_blank">8. Seated DB Calf Raises</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Seated+Dumbbell+Calf+Raise+on+bench" target="_blank"><i class="fa-solid fa-dumbbell"></i>Seated DB Calf Raises</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">15-20R</span></div>
                                         </div>
                                         <p class="exercise-notes">Seated on bench frame. Position heavy dumbbells vertically straight over knee lines.</p>
@@ -1154,7 +1205,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-9', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=1.5+Rep+Goblet+Squat+form" target="_blank">9. 1.5 Rep Goblet Squats</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=1.5+Rep+Goblet+Squat+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>1.5 Rep Goblet Squats</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10 Reps</span></div>
                                         </div>
                                         <p class="exercise-notes">Drop to deep base, pull up halfway, return back to bottom, stand fully.</p>
@@ -1164,7 +1215,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('sat-10', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Step+Ups+on+bench" target="_blank">10. Dumbbell Step-Ups</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Step+Ups+on+bench" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Step-Ups</a>
                                             <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10/lg</span></div>
                                         </div>
                                         <p class="exercise-notes">Ascend completely onto flat bench platform to load glutes unilaterally.</p>
@@ -1175,7 +1226,6 @@
                     </div>
                 </div>
 
-                <!-- SUNDAY -->
                 <div class="day-card" data-day="0" id="card-sun">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1199,9 +1249,7 @@
                 </div>
             </main>
 
-            <!-- VIEWPORT 2: SPECIALTY BLOCKS -->
             <main id="specialty-view" class="tab-viewport stack">
-                <!-- AB REVOLUTION ARCHITECTURE -->
                 <div class="day-card core-card" id="card-core">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1209,7 +1257,10 @@
                             <span class="day-subtitle">Poster Classics & Advanced Evolution</span>
                         </div>
                         <div class="right-accessory">
-                            <span class="day-progress" id="progress-core">0/9</span>
+                            <div class="progress-box">
+                                <span class="day-progress" id="progress-core">0/9</span>
+                                <div class="mini-progress-track"><div class="mini-progress-fill" id="fill-core"></div></div>
+                            </div>
                             <i class="fa-solid fa-chevron-right chevron"></i>
                         </div>
                     </button>
@@ -1220,7 +1271,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-1', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dragon+Flags+core+exercise+form" target="_blank">1. Dragon Flags</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dragon+Flags+core+exercise+form" target="_blank"><i class="fa-solid fa-child"></i>Dragon Flags</a>
                                             <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3S</span></div>
                                         </div>
                                         <p class="exercise-notes">Replaces Reverse Hip Flexion. Anti-extension upgrade. Grip bench edges overhead; lower body down slowly.</p>
@@ -1230,7 +1281,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-2', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Decline+Weighted+Dumbbell+Crunch+form" target="_blank">2. Decline Weighted Crunch</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Decline+Weighted+Dumbbell+Crunch+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Decline Weighted Crunch</a>
                                             <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3S</span></div>
                                         </div>
                                         <p class="exercise-notes">Replaces Feet over Bench. Secure ankles on decline profile. Squeeze sternum to pelvis with 3s negative.</p>
@@ -1240,7 +1291,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-3', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Weighted+Hollow+Body+Rock+form" target="_blank">3. Weighted Hollow Body Rock</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Weighted+Hollow+Body+Rock+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Weighted Hollow Body Rock</a>
                                             <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3S</span></div>
                                         </div>
                                         <p class="exercise-notes">Replaces 'V' Crunch. Press lower back into floor. Hold dumbbell overhead to extend loading levers.</p>
@@ -1250,7 +1301,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-4', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Russian+Twist+on+bench+deficit" target="_blank">4. Russian Twists with Deficit</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Russian+Twist+on+bench+deficit" target="_blank"><i class="fa-solid fa-dumbbell"></i>Russian Twists with Deficit</a>
                                             <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3S</span></div>
                                         </div>
                                         <p class="exercise-notes">Replaces Alternate Elbow to Knee. Sit lengthwise on bench with feet elevated. Torque shoulders fully from side to side.</p>
@@ -1260,7 +1311,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-5', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Garhammer+Raise+abs+form" target="_blank">5. Garhammer Raises</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Garhammer+Raise+abs+form" target="_blank"><i class="fa-solid fa-child"></i>Garhammer Raises</a>
                                             <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3S</span></div>
                                         </div>
                                         <p class="exercise-notes">Hang from bar or brace on bench. Keep knees flexed at 90° and drive upward toward your chin.</p>
@@ -1270,7 +1321,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-6', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Hands+to+Knees+Sit+Up+form" target="_blank">6. Classic Hands to Knees Sit-Up</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Hands+to+Knees+Sit+Up+form" target="_blank"><i class="fa-solid fa-child"></i>Classic Hands to Knees Sit-Up</a>
                                             <div class="metrics-group"><span class="pill-badge classic-badge">Poster</span><span class="pill-badge">Min 10</span></div>
                                         </div>
                                         <p class="exercise-notes">Foundational alignment. Slide open palms up to touch patella boundaries rhythmically.</p>
@@ -1280,7 +1331,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-7', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Oblique+Crunch+Sit+Up+form" target="_blank">7. Oblique Crunch Sit-Up</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Oblique+Crunch+Sit+Up+form" target="_blank"><i class="fa-solid fa-child"></i>Oblique Crunch Sit-Up</a>
                                             <div class="metrics-group"><span class="pill-badge classic-badge">Poster</span><span class="pill-badge">Min 10</span></div>
                                         </div>
                                         <p class="exercise-notes">Oblique vector setup. Flex thighs to 90 degrees; rotate torso to drive elbow over to alternate knees.</p>
@@ -1290,7 +1341,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-8', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=V+Crunch+Sit+Up+form" target="_blank">8. 'V' Crunch Sit-Up</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=V+Crunch+Sit+Up+form" target="_blank"><i class="fa-solid fa-child"></i>'V' Crunch Sit-Up</a>
                                             <div class="metrics-group"><span class="pill-badge classic-badge">Poster</span><span class="pill-badge">Min 10</span></div>
                                         </div>
                                         <p class="exercise-notes">Midline convergence tracker. Keep legs raised at static angles while crunching upper torso up.</p>
@@ -1300,7 +1351,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('core-9', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Crunch+Abdominals+Feet+Over+Bench" target="_blank">9. Crunch (Feet over Bench)</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Crunch+Abdominals+Feet+Over+Bench" target="_blank"><i class="fa-solid fa-child"></i>Crunch (Feet over Bench)</a>
                                             <div class="metrics-group"><span class="pill-badge classic-badge">Poster</span><span class="pill-badge">Min 10</span></div>
                                         </div>
                                         <p class="exercise-notes">Isolates rectus abdominis framework completely. Rest calves over bench plane at 90 degrees.</p>
@@ -1311,7 +1362,6 @@
                     </div>
                 </div>
 
-                <!-- HYBRIDS -->
                 <div class="day-card hybrid-card" id="card-hybrid">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1319,7 +1369,10 @@
                             <span class="day-subtitle">15 Full-Body Performance Integrations</span>
                         </div>
                         <div class="right-accessory">
-                            <span class="day-progress" id="progress-hybrid">0/15</span>
+                            <div class="progress-box">
+                                <span class="day-progress" id="progress-hybrid">0/15</span>
+                                <div class="mini-progress-track"><div class="mini-progress-fill" id="fill-hybrid"></div></div>
+                            </div>
                             <i class="fa-solid fa-chevron-right chevron"></i>
                         </div>
                     </button>
@@ -1330,7 +1383,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-1', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Man+Makers+exercise+form" target="_blank">1. Dumbbell Man Makers</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Man+Makers+exercise+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Man Makers</a>
                                             <div class="metrics-group"><span class="pill-badge">4 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Pushup, single-arm row left/right, jump feet in, clean to front rack, squat press overhead.</p>
@@ -1340,17 +1393,17 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-2', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Devil+Press+form" target="_blank">2. Dumbbell Devil Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Devil+Press+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Devil Press</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
-                                        <p class="exercise-notes">Execute full chest-to-floor burpee on dumbbells, pull out cleanly into continuous overhead snatch.</p>
+                                        <p class="exercise-notes">Execute full chest-to-floor burpee on dumbbells, pull out cleanly into continuous overhead snatch loop.</p>
                                     </div>
                                 </div>
                                 <div class="exercise-row" data-id="hy-3">
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-3', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Thrusters+form" target="_blank">3. Dumbbell Thrusters</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Thrusters+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Thrusters</a>
                                             <div class="metrics-group"><span class="pill-badge">4 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Fluid transition from front rack deep squat depth straight into heavy overhead press line.</p>
@@ -1360,7 +1413,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-4', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Turkish+Get+Up+form" target="_blank">4. Turkish Get-Ups</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Turkish+Get+Up+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Turkish Get-Ups</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Elite structural stability sequence. Travel from lying to upright with load overhead.</p>
@@ -1370,7 +1423,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-5', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Clusters+form" target="_blank">5. Dumbbell Clusters</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Clusters+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Dumbbell Clusters</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Dumbbell clean from floor straight into deep front squat to overhead thruster loop.</p>
@@ -1380,7 +1433,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-6', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Dumbbell+Snatch+form" target="_blank">6. 1-Arm Dumbbell Snatch</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Arm+Dumbbell+Snatch+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>1-Arm Dumbbell Snatch</a>
                                             <div class="metrics-group"><span class="pill-badge">4 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Explosive triple extension architecture. Explode weight up off floor line to overhead lockout.</p>
@@ -1390,7 +1443,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-7', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Renegade+Row+to+Push+Up" target="_blank">7. Renegade Row to Pushup</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Renegade+Row+to+Push+Up" target="_blank"><i class="fa-solid fa-dumbbell"></i>Renegade Row to Pushup</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Deep pushup layout on dumbbell handles followed by clean alternating core rows.</p>
@@ -1400,7 +1453,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-8', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Burpee+to+Deadlift" target="_blank">8. DB Burpee to Deadlift</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Burpee+to+Deadlift" target="_blank"><i class="fa-solid fa-dumbbell"></i>DB Burpee to Deadlift</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Drop into burpee stance on handles, snap feet to wide setup, stand via deadlift mechanics.</p>
@@ -1410,7 +1463,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-9', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Goblet+Squat+to+Curl+to+Press" target="_blank">9. Squat to Curl to Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Goblet+Squat+to+Curl+to+Press" target="_blank"><i class="fa-solid fa-dumbbell"></i>Squat to Curl to Press</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Deep goblet squat, return to standing frame, execute strict bicep curl to vertical press.</p>
@@ -1420,7 +1473,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-10', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Cable+Squat+to+Row" target="_blank">10. Cable Squat to Row</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Cable+Squat+to+Row" target="_blank"><i class="fa-solid fa-link"></i>Cable Squat to Row</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Low pulley bar pathing. Squat deep countering line pull, stand up directly into back row.</p>
@@ -1430,7 +1483,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-11', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Lunge+with+Rotation" target="_blank">11. Lunge with Twist</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Lunge+with+Rotation" target="_blank"><i class="fa-solid fa-dumbbell"></i>Lunge with Twist</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Deep reverse lunge pathing while holding load horizontally, torque torso over lead leg.</p>
@@ -1440,7 +1493,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-12', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Leg+RDL+to+Overhead+Press" target="_blank">12. Single-Leg RDL to Press</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Single+Leg+RDL+to+Overhead+Press" target="_blank"><i class="fa-solid fa-dumbbell"></i>Single-Leg RDL to Press</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Hinge into single-leg RDL, execute step-through knee drive directly into overhead press.</p>
@@ -1450,7 +1503,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-13', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Cable+Squat+woodchopper" target="_blank">13. Cable Squat Woodchopper</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Cable+Squat+woodchopper" target="_blank"><i class="fa-solid fa-link"></i>Cable Squat Woodchopper</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">High pulley track setup. Descend to full squat depth while throwing cable diagonally.</p>
@@ -1460,7 +1513,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-14', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Farmers+Walk+form" target="_blank">14. Heavy Farmer's Carries</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Farmers+Walk+form" target="_blank"><i class="fa-solid fa-dumbbell"></i>Heavy Farmer's Carries</a>
                                             <div class="metrics-group"><span class="pill-badge">4 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Grip maximum rack weights, lock scapula backward, maintain step tempo lines.</p>
@@ -1470,7 +1523,7 @@
                                     <div class="ios-checkbox" onclick="toggleCheck('hy-15', event)"><i class="fa-solid fa-check"></i></div>
                                     <div class="exercise-body">
                                         <div class="exercise-main">
-                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Bench+Hop+Overs+exercise" target="_blank">15. Bench Hops to Pushup</a>
+                                            <a class="exercise-link" href="https://www.youtube.com/results?search_query=Bench+Hop+Overs+exercise" target="_blank"><i class="fa-solid fa-child"></i>Bench Hops to Pushup</a>
                                             <div class="metrics-group"><span class="pill-badge">3 Sets</span></div>
                                         </div>
                                         <p class="exercise-notes">Anchor palms on bench edge, jump feet dynamically side-to-side, drop for pushups.</p>
@@ -1535,14 +1588,20 @@
                 const rows = container.querySelectorAll('.exercise-row');
                 const checkedRows = container.querySelectorAll('.exercise-row.checked');
                 const metricDisplay = document.getElementById(`progress-${card}`);
+                const fillElement = document.getElementById(`fill-${card}`);
                 
-                if (metricDisplay && rows.length > 0) {
-                    metricDisplay.textContent = `${checkedRows.length}/${rows.length}`;
-                    if (checkedRows.length === rows.length) {
-                        metricDisplay.classList.add('complete');
-                        metricDisplay.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
-                    } else {
-                        metricDisplay.classList.remove('complete');
+                if (rows.length > 0) {
+                    const percentage = (checkedRows.length / rows.length) * 100;
+                    if (fillElement) fillElement.style.width = `${percentage}%`;
+
+                    if (metricDisplay) {
+                        if (checkedRows.length === rows.length) {
+                            metricDisplay.classList.add('complete');
+                            metricDisplay.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                        } else {
+                            metricDisplay.classList.remove('complete');
+                            metricDisplay.textContent = `${checkedRows.length}/${rows.length}`;
+                        }
                     }
                 }
             });

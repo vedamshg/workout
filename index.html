@@ -6,37 +6,35 @@
     <title>Fitness Stacks</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Apple San Francisco Mobile UI Tokens */
+        /* Apple San Francisco System Mobile Design Tokens */
         :root {
             --bg-system: #000000;
             --bg-card: #1c1c1e;
             --bg-card-secondary: #2c2c2e;
             --accent: #0a84ff;
-            --accent-red: #ff453a;
+            --accent-orange: #ff9f0a;
             --accent-green: #30d158;
             --text-primary: #ffffff;
             --text-secondary: #8e8e93;
             --text-tertiary: #48484a;
             --separator: rgba(255, 255, 255, 0.1);
-            --radius-sf: 14px;
+            --radius-sf: 12px;
             --radius-pill: 20px;
             
-            /* Native Sizing Constraints */
             --header-height: 115px;
-            --tabbar-height: 64px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro Display\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
         }
 
-        /* Prevent system rubber-banding & lock viewport */
+        /* Prevent system rubber-banding & lock baseline layout chassis */
         html, body {
             background-color: var(--bg-system);
             color: var(--text-primary);
@@ -46,7 +44,7 @@
             position: fixed;
         }
 
-        /* App Layout Base Container */
+        /* App Structural Frame */
         .app-shell {
             display: flex;
             flex-direction: column;
@@ -57,11 +55,11 @@
             position: relative;
         }
 
-        /* Sticky iOS Navigation Header Block */
+        /* Sticky iOS Navigation Header Container */
         .nav-header {
             height: var(--header-height);
             padding: 16px 16px 10px 16px;
-            background-color: rgba(0, 0, 0, 0.85);
+            background-color: rgba(0, 0, 0, 0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             position: absolute;
@@ -79,17 +77,75 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
 
         .nav-header h1 {
             font-size: 28px;
             font-weight: 700;
             letter-spacing: -0.5px;
+            line-height: 1.1;
         }
 
         .nav-header p {
             font-size: 13px;
             color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* HIGH-FIDELITY ACTIVE TINT PICKER (FIXES DULL LAYOUT IN IMAGE_4B8C2D.PNG) */
+        .segmented-picker {
+            background-color: rgba(28, 28, 30, 0.7);
+            border-radius: 12px;
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .picker-item {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 9px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .picker-item i {
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        /* Weekly Active State: Apple Cyan-Blue Tint */
+        #btn-weekly.active {
+            background-color: rgba(10, 132, 255, 0.14);
+            color: var(--accent);
+            border: 0.5px solid rgba(10, 132, 255, 0.25);
+        }
+        #btn-weekly.active i {
+            color: var(--accent);
+            transform: scale(1.08);
+        }
+
+        /* Specialty Active State: High-Intensity Activity Orange Tint */
+        #btn-specialty.active {
+            background-color: rgba(255, 159, 10, 0.14);
+            color: var(--accent-orange);
+            border: 0.5px solid rgba(255, 159, 10, 0.25);
+        }
+        #btn-specialty.active i {
+            color: var(--accent-orange);
+            transform: scale(1.08);
         }
 
         /* Compact Mobile Search Control */
@@ -122,21 +178,20 @@
             font-size: 14px;
         }
 
-        /* Dedicated Inertial Mobile Scroll Container */
+        /* Independent Content Scrolling Viewport Matrix */
         .scroll-content {
             flex: 1;
             margin-top: var(--header-height);
             overflow-y: auto;
             -webkit-overflow-scrolling: touch; 
-            padding: 12px 12px calc(var(--tabbar-height) + 45px + env(safe-area-inset-bottom, 0px)) 12px;
+            padding: 12px 12px calc(20px + env(safe-area-inset-bottom, 0px)) 12px;
         }
 
-        /* Hide default scrollbars for pure app presentation */
         .scroll-content::-webkit-scrollbar {
             display: none;
         }
 
-        /* Native Stack Cards */
+        /* Content Architecture Stacks */
         .stack {
             display: flex;
             flex-direction: column;
@@ -217,7 +272,7 @@
             transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Accordion Grid Mechanics */
+        /* Expansion Box System */
         .day-content {
             display: grid;
             grid-template-rows: 0fr;
@@ -254,7 +309,7 @@
             border-bottom: none;
         }
 
-        /* High Target Hitbox Circle Checkbox */
+        /* Dynamic High-Target Checklist Hitboxes */
         .ios-checkbox {
             width: 24px;
             height: 24px;
@@ -354,98 +409,33 @@
         .rest-view i { font-size: 24px; color: var(--accent-green); }
         .rest-view p { font-size: 13px; color: var(--text-secondary); }
 
-        /* Specialty Card Outlines */
+        /* Specialty Card Variations */
         .hybrid-card { border: 0.5px solid rgba(10, 132, 255, 0.15); }
         .core-card { border: 0.5px solid rgba(48, 209, 88, 0.15); }
-
-        /* FLOATING LIQUID GLASS BAR (APPLE MUSIC PLAYER ARCHITECTURE) */
-        .tab-bar {
-            height: var(--tabbar-height);
-            background-color: rgba(28, 28, 30, 0.60);
-            backdrop-filter: blur(30px) saturate(210%);
-            -webkit-backdrop-filter: blur(30px) saturate(210%);
-            border: 1.5px solid rgba(255, 255, 255, 0.08);
-            border-radius: 40px;
-            position: absolute;
-            bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-            left: 20px;
-            right: 20px;
-            z-index: 100;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 6px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 
-                        inset 0 1px 0px rgba(255, 255, 255, 0.2);
-        }
-
-        .tab-item {
-            flex: 1;
-            height: calc(var(--tabbar-height) - 12px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            position: relative;
-            transition: color 0.25s ease;
-        }
-
-        .tab-item i {
-            font-size: 18px;
-            z-index: 2;
-            transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .tab-item span {
-            font-size: 9px;
-            font-weight: 600;
-            z-index: 2;
-            letter-spacing: -0.1px;
-        }
-
-        /* Glass Liquid Indicator Capsule Capsule */
-        .tab-item::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 4px; right: 4px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 30px;
-            z-index: 1;
-            opacity: 0;
-            transform: scale(0.85);
-            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .tab-item.active {
-            color: var(--accent);
-        }
-
-        .tab-item.active i {
-            transform: scale(1.05);
-        }
-
-        .tab-item.active::before {
-            opacity: 1;
-            transform: scale(1);
-            background: rgba(10, 132, 255, 0.12);
-            border: 0.5px solid rgba(10, 132, 255, 0.25);
-        }
     </style>
 </head>
 <body>
 
     <div class="app-shell">
 
+        <!-- Top Navigation Header Container -->
         <header class="nav-header">
             <div class="header-main">
                 <div>
                     <h1>Workout</h1>
                     <p id="headerBlockTag">Advanced Split Trackers</p>
+                </div>
+                
+                <!-- UPGRADED HIGH-FIDELITY SEGMENTED COLOR PICKER -->
+                <div class="segmented-picker">
+                    <button class="picker-item active" id="btn-weekly" onclick="switchTab('weekly')">
+                        <i class="fa-solid fa-calendar-week"></i>
+                        <span>Weekly</span>
+                    </button>
+                    <button class="picker-item" id="btn-specialty" onclick="switchTab('specialty')">
+                        <i class="fa-solid fa-fire-alt"></i>
+                        <span>Specialty</span>
+                    </button>
                 </div>
             </div>
             <div class="search-container">
@@ -454,9 +444,12 @@
             </div>
         </header>
 
+        <!-- Main Dynamic Viewport Chassis -->
         <div class="scroll-content">
             
+            <!-- VIEWPORT 1: WEEKLY SPLIT -->
             <main id="weekly-view" class="tab-viewport active stack">
+                <!-- MONDAY -->
                 <div class="day-card" data-day="1" id="card-mon">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -577,6 +570,7 @@
                     </div>
                 </div>
 
+                <!-- TUESDAY -->
                 <div class="day-card" data-day="2" id="card-tue">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -697,6 +691,7 @@
                     </div>
                 </div>
 
+                <!-- WEDNESDAY -->
                 <div class="day-card" data-day="3" id="card-wed">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -817,6 +812,7 @@
                     </div>
                 </div>
 
+                <!-- THURSDAY -->
                 <div class="day-card" data-day="4" id="card-thu">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -937,6 +933,7 @@
                     </div>
                 </div>
 
+                <!-- FRIDAY -->
                 <div class="day-card" data-day="5" id="card-fri">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1057,6 +1054,7 @@
                     </div>
                 </div>
 
+                <!-- SATURDAY -->
                 <div class="day-card" data-day="6" id="card-sat">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1107,7 +1105,7 @@
                                     <div class="exercise-body">
                                         <div class="exercise-main">
                                             <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Reverse+Lunges" target="_blank">4. DB Reverse Lunges</a>
-                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10/leg</span></div>
+                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10/lg</span></div>
                                         </div>
                                         <p class="exercise-notes">Step backward deep into depth ranges to trigger glute/hamstring intersections.</p>
                                     </div>
@@ -1177,6 +1175,7 @@
                     </div>
                 </div>
 
+                <!-- SUNDAY -->
                 <div class="day-card" data-day="0" id="card-sun">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1200,7 +1199,9 @@
                 </div>
             </main>
 
+            <!-- VIEWPORT 2: SPECIALTY BLOCKS -->
             <main id="specialty-view" class="tab-viewport stack">
+                <!-- AB REVOLUTION ARCHITECTURE -->
                 <div class="day-card core-card" id="card-core">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1222,7 +1223,7 @@
                                             <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dragon+Flags+core+exercise+form" target="_blank">1. Dragon Flags</a>
                                             <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3S</span></div>
                                         </div>
-                                        <p class="exercise-notes">Replaces Reverse Hip Flexion. Anti-extension upgrade. Grip bench edges overhead; lower line body down slowly.</p>
+                                        <p class="exercise-notes">Replaces Reverse Hip Flexion. Anti-extension upgrade. Grip bench edges overhead; lower body down slowly.</p>
                                     </div>
                                 </div>
                                 <div class="exercise-row" data-id="core-2">
@@ -1310,6 +1311,7 @@
                     </div>
                 </div>
 
+                <!-- HYBRIDS -->
                 <div class="day-card hybrid-card" id="card-hybrid">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1482,17 +1484,6 @@
 
         </div>
 
-        <nav class="tab-bar">
-            <button class="tab-item active" id="btn-weekly" onclick="switchTab('weekly')">
-                <i class="fa-solid fa-calendar-days"></i>
-                <span>Weekly Split</span>
-            </button>
-            <button class="tab-item" id="btn-specialty" onclick="switchTab('specialty')">
-                <i class="fa-solid fa-dumbbell"></i>
-                <span>Specialty Blocks</span>
-            </button>
-        </nav>
-
     </div>
 
     <script>
@@ -1559,7 +1550,7 @@
 
         function switchTab(tab) {
             document.querySelectorAll('.tab-viewport').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.picker-item').forEach(el => el.classList.remove('active'));
             
             const tag = document.getElementById('headerBlockTag');
 

@@ -18,19 +18,19 @@
             --text-secondary: #8e8e93;
             --text-tertiary: #48484a;
             --separator: rgba(255, 255, 255, 0.1);
-            --radius-sf: 12px;
+            --radius-sf: 14px;
             --radius-pill: 20px;
             
             /* Native Sizing Constraints */
             --header-height: 115px;
-            --tabbar-height: 65px;
+            --tabbar-height: 64px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"SF Pro Display\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
@@ -52,7 +52,7 @@
             flex-direction: column;
             height: 100%;
             width: 100%;
-            max-width: 480px; /* Perfect tracking boundaries on larger mobile panels */
+            max-width: 480px; 
             margin: 0 auto;
             position: relative;
         }
@@ -126,10 +126,9 @@
         .scroll-content {
             flex: 1;
             margin-top: var(--header-height);
-            margin-bottom: var(--tabbar-height);
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch; /* Butter-smooth iOS tracking friction */
-            padding: 12px 12px 40px 12px;
+            -webkit-overflow-scrolling: touch; 
+            padding: 12px 12px calc(var(--tabbar-height) + 45px + env(safe-area-inset-bottom, 0px)) 12px;
         }
 
         /* Hide default scrollbars for pure app presentation */
@@ -359,50 +358,82 @@
         .hybrid-card { border: 0.5px solid rgba(10, 132, 255, 0.15); }
         .core-card { border: 0.5px solid rgba(48, 209, 88, 0.15); }
 
-        /* Glassmorphic iOS Bottom App Tab Bar Framework */
+        /* FLOATING LIQUID GLASS BAR (APPLE MUSIC PLAYER ARCHITECTURE) */
         .tab-bar {
-            height: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
-            padding-bottom: env(safe-area-inset-bottom, 0px);
-            background-color: rgba(28, 28, 30, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 0.5px solid var(--separator);
+            height: var(--tabbar-height);
+            background-color: rgba(28, 28, 30, 0.60);
+            backdrop-filter: blur(30px) saturate(210%);
+            -webkit-backdrop-filter: blur(30px) saturate(210%);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+            left: 20px;
+            right: 20px;
             z-index: 100;
             display: flex;
             justify-content: space-around;
             align-items: center;
+            padding: 0 6px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 
+                        inset 0 1px 0px rgba(255, 255, 255, 0.2);
         }
 
         .tab-item {
             flex: 1;
+            height: calc(var(--tabbar-height) - 12px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 3px;
             background: none;
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
-            height: 100%;
-            transition: color 0.15s ease;
+            position: relative;
+            transition: color 0.25s ease;
         }
 
         .tab-item i {
-            font-size: 20px;
+            font-size: 18px;
+            z-index: 2;
+            transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .tab-item span {
-            font-size: 10px;
-            font-weight: 500;
+            font-size: 9px;
+            font-weight: 600;
+            z-index: 2;
+            letter-spacing: -0.1px;
+        }
+
+        /* Glass Liquid Indicator Capsule Capsule */
+        .tab-item::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 4px; right: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 30px;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .tab-item.active {
             color: var(--accent);
+        }
+
+        .tab-item.active i {
+            transform: scale(1.05);
+        }
+
+        .tab-item.active::before {
+            opacity: 1;
+            transform: scale(1);
+            background: rgba(10, 132, 255, 0.12);
+            border: 0.5px solid rgba(10, 132, 255, 0.25);
         }
     </style>
 </head>
@@ -410,7 +441,6 @@
 
     <div class="app-shell">
 
-        <!-- Top Navigation Header Container -->
         <header class="nav-header">
             <div class="header-main">
                 <div>
@@ -424,12 +454,9 @@
             </div>
         </header>
 
-        <!-- Main Dynamic Viewport Chassis -->
         <div class="scroll-content">
             
-            <!-- VIEWPORT 1: WEEKLY SPLIT -->
             <main id="weekly-view" class="tab-viewport active stack">
-                <!-- MONDAY -->
                 <div class="day-card" data-day="1" id="card-mon">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -550,7 +577,6 @@
                     </div>
                 </div>
 
-                <!-- TUESDAY -->
                 <div class="day-card" data-day="2" id="card-tue">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -671,7 +697,6 @@
                     </div>
                 </div>
 
-                <!-- WEDNESDAY -->
                 <div class="day-card" data-day="3" id="card-wed">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -792,7 +817,6 @@
                     </div>
                 </div>
 
-                <!-- THURSDAY -->
                 <div class="day-card" data-day="4" id="card-thu">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -913,11 +937,10 @@
                     </div>
                 </div>
 
-                <!-- FRIDAY -->
                 <div class="day-card" data-day="5" id="card-fri">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
-                    <h2>Friday</h2>
+                            <h2>Friday</h2>
                             <span class="day-subtitle">Pull Hypertrophy Stacks</span>
                         </div>
                         <div class="right-accessory">
@@ -1034,7 +1057,6 @@
                     </div>
                 </div>
 
-                <!-- SATURDAY -->
                 <div class="day-card" data-day="6" id="card-sat">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1085,7 +1107,7 @@
                                     <div class="exercise-body">
                                         <div class="exercise-main">
                                             <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Reverse+Lunges" target="_blank">4. DB Reverse Lunges</a>
-                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10/lg</span></div>
+                                            <div class="metrics-group"><span class="pill-badge">3S</span><span class="pill-badge">10/leg</span></div>
                                         </div>
                                         <p class="exercise-notes">Step backward deep into depth ranges to trigger glute/hamstring intersections.</p>
                                     </div>
@@ -1155,7 +1177,6 @@
                     </div>
                 </div>
 
-                <!-- SUNDAY -->
                 <div class="day-card" data-day="0" id="card-sun">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1179,9 +1200,7 @@
                 </div>
             </main>
 
-            <!-- VIEWPORT 2: SPECIALTY BLOCKS -->
             <main id="specialty-view" class="tab-viewport stack">
-                <!-- AB REVOLUTION ARCHITECTURE -->
                 <div class="day-card core-card" id="card-core">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1291,7 +1310,6 @@
                     </div>
                 </div>
 
-                <!-- HYBRIDS -->
                 <div class="day-card hybrid-card" id="card-hybrid">
                     <button class="day-trigger" onclick="toggleCard(this)">
                         <div class="day-title-container">
@@ -1464,7 +1482,6 @@
 
         </div>
 
-        <!-- Glassmorphic iOS App Tab Bar Container -->
         <nav class="tab-bar">
             <button class="tab-item active" id="btn-weekly" onclick="switchTab('weekly')">
                 <i class="fa-solid fa-calendar-days"></i>
@@ -1483,7 +1500,6 @@
         let trackerState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Apply checked metrics from active localStorage profiles
             Object.keys(trackerState).forEach(id => {
                 if (trackerState[id]) {
                     const row = document.querySelector(`.exercise-row[data-id="${id}"]`);
@@ -1493,7 +1509,6 @@
 
             refreshAllProgressMetrics();
 
-            // Native Apple Auto-Focus Engine targeting today's date
             const systemDayIndex = new Date().getDay();
             const targetCard = document.querySelector(`.day-card[data-day="${systemDayIndex}"]`);
             
@@ -1509,7 +1524,7 @@
         });
 
         function toggleCheck(id, event) {
-            event.stopPropagation(); // Block accordion trigger fires
+            event.stopPropagation(); 
             const row = document.querySelector(`.exercise-row[data-id="${id}"]`);
             if (!row) return;
 
@@ -1542,7 +1557,6 @@
             });
         }
 
-        // Native iOS View Switcher Pipeline
         function switchTab(tab) {
             document.querySelectorAll('.tab-viewport').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
@@ -1558,7 +1572,6 @@
                 document.getElementById('btn-specialty').classList.add('active');
                 tag.textContent = "Evolution Core & Hybrids";
             }
-            // Auto scroll container to absolute baseline top on tab transformations
             document.querySelector('.scroll-content').scrollTop = 0;
         }
 

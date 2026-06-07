@@ -215,6 +215,16 @@
             letter-spacing: -0.1px;
         }
 
+        .pill-badge.advanced-badge {
+            background-color: rgba(10, 132, 255, 0.15);
+            color: var(--accent);
+        }
+
+        .pill-badge.classic-badge {
+            background-color: rgba(48, 209, 88, 0.15);
+            color: var(--accent-green);
+        }
+
         .exercise-notes {
             font-size: 13px;
             line-height: 1.4;
@@ -251,6 +261,10 @@
 
         .hybrid-card .day-trigger h2 {
             color: #ffffff;
+        }
+
+        .core-card {
+            border: 1px solid rgba(48, 209, 88, 0.25);
         }
     </style>
 </head>
@@ -397,7 +411,7 @@
                         </div>
                         <div class="exercise-row">
                             <div class="exercise-main">
-                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Straight+Arm+Lat+Pulldown+cable" target="_blank">5. Straight Arm Pulldown</a>
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Straight+Arm+Lat+Pulldown+cable" target="_blank">5. Straight Arm Puldown</a>
                                 <div class="metrics-group"><span class="pill-badge">3 Sets</span><span class="pill-badge">12-15 Reps</span></div>
                             </div>
                             <p class="exercise-notes">High pulley execution. Prevent elbow joint activation to trap absolute width line focus.</p>
@@ -820,6 +834,91 @@
                         <i class="fa-solid fa-circle-check"></i>
                         <p>CNS Reset Active</p>
                         <p>Prioritize macro distribution, total hydration, and sleep telemetry analytics.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CORE EVOLUTION BLOCK (NEW OPTION) -->
+        <div class="day-card core-card">
+            <button class="day-trigger" onclick="toggleCard(this)">
+                <div class="day-title-container">
+                    <h2>Abdominal Blueprint</h2>
+                    <span class="day-subtitle">Poster Classics & Advanced Evolution</span>
+                </div>
+                <div class="right-accessory">
+                    <i class="fa-solid fa-chevron-right chevron"></i>
+                </div>
+            </button>
+            <div class="day-content">
+                <div class="day-content-wrapper">
+                    <div class="list-group">
+                        <!-- ADVANCED SYSTEM EVOLUTION -->
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dragon+Flags+core+exercise+form" target="_blank">1. Dragon Flags</a>
+                                <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3 Sets</span><span class="pill-badge">6-8 Reps</span></div>
+                            </div>
+                            <p class="exercise-notes">Replaces Reverse Hip Flexion. High-tension anti-extension upgrade. Reach behind head to grip bench edges; lower your body in a rigid line slowly.</p>
+                        </div>
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Decline+Weighted+Dumbbell+Crunch+form" target="_blank">2. Decline Weighted Crunch</a>
+                                <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3 Sets</span><span class="pill-badge">10-12 Reps</span></div>
+                            </div>
+                            <p class="exercise-notes">Replaces Feet over Bench. Secure ankles on decline profile. Compress distance between sternum and pelvis using an explicit 3-second negative tempo.</p>
+                        </div>
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Weighted+Hollow+Body+Rock+form" target="_blank">3. Weighted Hollow Body Rock</a>
+                                <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3 Sets</span><span class="pill-badge">30-45s</span></div>
+                            </div>
+                            <p class="exercise-notes">Replaces 'V' Crunch. Press lumbar spine aggressively into floor matrix. Extend arms straight overhead holding a light dumbbell lever.</p>
+                        </div>
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Dumbbell+Russian+Twist+on+bench+deficit" target="_blank">4. Russian Twists with Deficit</a>
+                                <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3 Sets</span><span class="pill-badge">12/side</span></div>
+                            </div>
+                            <p class="exercise-notes">Replaces Alternate Elbow to Knee. Sit lengthwise on bench with feet elevated over pad margin. Torque shoulders entirely through a deep rotational plane.</p>
+                        </div>
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Garhammer+Raise+abs+form" target="_blank">5. Garhammer Raises</a>
+                                <div class="metrics-group"><span class="pill-badge advanced-badge">Elite</span><span class="pill-badge">3 Sets</span><span class="pill-badge">10-12 Reps</span></div>
+                            </div>
+                            <p class="exercise-notes">Hang from bar or brace on incline bench. Start with knees flexed at 90 degrees and drive them upward toward chin to target deep lower abdominal layers.</p>
+                        </div>
+                        
+                        <!-- CLEAN MODERNIZED POSTER CLASSICS -->
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Hands+to+Knees+Sit+Up+form" target="_blank">6. Classic Hands to Knees Sit-Up</a>
+                                <div class="metrics-group"><span class="pill-badge classic-badge">Poster</span><span class="pill-badge">Min 10 Reps</span></div>
+                            </div>
+                            <p class="exercise-notes">Foundational alignment layer. Keep lower back anchored firmly; slide open palms up to touch patella boundaries rhythmically.</p>
+                        </div>
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Oblique+Crunch+Sit+Up+form" target="_blank">7. Oblique Crunch Sit-Up</a>
+                                <div class="metrics-group"><span class="pill-badge classic-badge">Poster</span><span class="pill-badge">Min 10 Reps</span></div>
+                            </div>
+                            <p class="exercise-notes">Targeting internal/external oblique vectors. Flex thighs to 90 degrees; elevate and rotate torso to drive elbow over to alternate knees.</p>
+                        </div>
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=V+Crunch+Sit+Up+form" target="_blank">8. 'V' Crunch Sit-Up</a>
+                                <div class="metrics-group"><span class="pill-badge classic-badge">Poster</span><span class="pill-badge">Min 10 Reps</span></div>
+                            </div>
+                            <p class="exercise-notes">Advanced flex baseline. Keep legs raised at static angles while crunching upper torso up to converge at center point coordinates.</p>
+                        </div>
+                        <div class="exercise-row">
+                            <div class="exercise-main">
+                                <a class="exercise-link" href="https://www.youtube.com/results?search_query=Crunch+Abdominals+Feet+Over+Bench" target="_blank">9. Crunch (Feet over Bench)</a>
+                                <div class="metrics-group"><span class="pill-badge classic-badge">Poster</span><span class="pill-badge">Min 10 Reps</span></div>
+                            </div>
+                            <p class="exercise-notes">Isolates rectus abdominis framework completely. Rest calves over bench plane at 90 degrees to eliminate hip-flexor leverage parameters.</p>
+                        </div>
                     </div>
                 </div>
             </div>
